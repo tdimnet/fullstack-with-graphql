@@ -2,7 +2,8 @@ import {
     extendType,
     nonNull,
     objectType,
-    stringArg
+    stringArg,
+    intArg
 } from 'nexus'
 import { NexusGenObjects } from '../../nexus-typegen'
 
@@ -40,6 +41,22 @@ export const LinkQuery = extendType({
     }
 })
 
+export const LinkQueryById = extendType({
+    type: 'Query',
+    definition(t) {
+        t.nonNull.field('link', {
+            type: 'Link',
+            args: {
+                id: nonNull(intArg())
+            },
+            resolve(parent, args, context) {
+                const { id } = args
+                return links.filter(l => l.id === id)[0]
+            }
+        })
+    }
+})
+
 export const LinkMutation = extendType({
     type: 'Mutation',
     definition(t) {
@@ -62,6 +79,38 @@ export const LinkMutation = extendType({
 
                 links.push(link)
                 return link
+            }
+        }),
+        t.nonNull.field('update', {
+            type: 'Link',
+            args: {
+                id: nonNull(intArg()),
+                description: nonNull(stringArg()),
+                url: nonNull(stringArg())
+            },
+
+            resolve(parent, args, context) {
+
+                console.log("=====")
+                console.log(args)
+                console.log("=====")
+
+                return links[0]
+            }
+        }),
+        t.nonNull.field('delete', {
+            type: 'Link',
+            args: {
+                id: nonNull(stringArg()),
+            },
+
+            resolve(parent, args, context) {
+
+                console.log("=====")
+                console.log(args)
+                console.log("=====")
+
+                return links[0]
             }
         })
     }
