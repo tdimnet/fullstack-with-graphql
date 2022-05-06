@@ -1,18 +1,41 @@
 version: '3'
 services:
+
   react-app:
     build: react-app
     ports:
       - '3000:3000'
     tty: true
     stdin_open: true
+    depends_on:
+      - db
+      - adminer
     volumes:
       - ./react-app:/react-app
+
   graphql-server:
     build: graphql-server
     ports:
       - '4000:4000'
     tty: true
     stdin_open: true
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - adminer
     volumes:
       - ./graphql-server:/graphql-server
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: toto90
+      POSTGRES_DB: project
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
