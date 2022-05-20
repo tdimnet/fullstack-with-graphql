@@ -28,6 +28,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  AuthPayload: { // root type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Link: { // root type
     description: string; // String!
     id: number; // Int!
@@ -53,6 +57,10 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  AuthPayload: { // field return type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Link: { // field return type
     description: string; // String!
     id: number; // Int!
@@ -62,6 +70,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     delete: NexusGenRootTypes['Link']; // Link!
     post: NexusGenRootTypes['Link']; // Link!
+    signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     update: NexusGenRootTypes['Link']; // Link!
   }
   Query: { // field return type
@@ -77,6 +86,10 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  AuthPayload: { // field return type name
+    token: 'String'
+    user: 'User'
+  }
   Link: { // field return type name
     description: 'String'
     id: 'Int'
@@ -86,6 +99,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     delete: 'Link'
     post: 'Link'
+    signup: 'AuthPayload'
     update: 'Link'
   }
   Query: { // field return type name
@@ -108,6 +122,11 @@ export interface NexusGenArgTypes {
     post: { // args
       description: string; // String!
       url: string; // String!
+    }
+    signup: { // args
+      email: string; // String!
+      name: string; // String!
+      password: string; // String!
     }
     update: { // args
       description: string; // String!
