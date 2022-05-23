@@ -69,6 +69,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     delete: NexusGenRootTypes['Link']; // Link!
+    login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     post: NexusGenRootTypes['Link']; // Link!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     update: NexusGenRootTypes['Link']; // Link!
@@ -98,6 +99,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     delete: 'Link'
+    login: 'AuthPayload'
     post: 'Link'
     signup: 'AuthPayload'
     update: 'Link'
@@ -118,6 +120,10 @@ export interface NexusGenArgTypes {
   Mutation: {
     delete: { // args
       id: string; // String!
+    }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
     }
     post: { // args
       description: string; // String!
