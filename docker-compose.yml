@@ -10,6 +10,7 @@ services:
     depends_on:
       - db
       - adminer
+      - datadog-agent
     volumes:
       - ./react-app:/react-app
 
@@ -19,11 +20,22 @@ services:
       - '4000:4000'
     tty: true
     stdin_open: true
+    environment:
+      - DD_ENV=dev
+      - DD_VERSION=0.1
+      - DD_AGENT_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_LOGS_INJECTION=true
+      - DD_SERVICE=graphql-server
     env_file:
       - ./.env
     depends_on:
       - db
       - adminer
+      - datadog-agent
+    labels:
+      com.datadoghq.tags.env: "dev"
+      com.datadoghq.tags.version: "0.1"
     volumes:
       - ./graphql-server:/graphql-server
 
@@ -38,3 +50,20 @@ services:
     image: adminer
     ports:
       - 8080:8080
+
+  datadog-agent:
+    image: datadog/agent
+    environment:
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+    env_file:
+      - ./.env
+    ports:
+      - "8126:8126"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+
+
