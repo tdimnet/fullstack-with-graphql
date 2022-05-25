@@ -2,19 +2,18 @@ import { datadogRum } from '@datadog/browser-rum'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import './index.css';
-import App from './App';
+import './styles/index.css';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
 const {
     REACT_APP_APPLICATION_ID,
     REACT_APP_CLIENT_TOKEN,
-    REACT_APP_SITE,
-    REACT_APP_SERVICE,
     REACT_APP_ENV,
+    REACT_APP_SERVICE,
+    REACT_APP_SITE,
     REACT_APP_VERSION
 } = process.env
-
 
 datadogRum.init({
     applicationId: REACT_APP_APPLICATION_ID as string,
