@@ -1139,6 +1139,26 @@
   resolved "https://registry.yarnpkg.com/@csstools/postcss-unset-value/-/postcss-unset-value-1.0.0.tgz#f6e0e58376f09e381a49bd553772a97a477da3fd"
   integrity sha512-T5ZyNSw9G0x0UDFiXV40a7VjKw2b+l4G+S0sctKqxhx8cg9QtMUAGwJBVU9mHPDPoZEmwm0tEoukjl4zb9MU7Q==
 
+"@datadog/browser-core@4.11.1":
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.11.1.tgz#8c90b14a20804fda26e861d523a7d500f75bc2e6"
+  integrity sha512-0Q2n7bfqsJW4cNh8uQPfilKVWSR/xvFpsEZYhNodxzU0lQupUg2hz/E2tefgSmjojiMzMWX7KUwkEe3qf9Z4CQ==
+
+"@datadog/browser-rum-core@4.11.1":
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.11.1.tgz#8d2b9c467c2bc15b2bcee62706f29ea160b60fbe"
+  integrity sha512-9P45w3ISnsF+FSMOAvUiwzbPFg/KDPmlzmjEA8iG97g/12W0OpF8wbNYaQYebf+wv5mw6Ngr3Sv/MBDYuOOTpw==
+  dependencies:
+    "@datadog/browser-core" "4.11.1"
+
+"@datadog/browser-rum@^4.11.1":
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.11.1.tgz#3268273714dd1b4b1cf1fa57e191b04f32d3b79e"
+  integrity sha512-3HXHmhN3fFBWFA5ShTEcod4rcZ4KvX2JxtXJjOmfWBSE7XYT8ScClkZXkBhBCigLOsnNLwSpGV0CDezOMEbdag==
+  dependencies:
+    "@datadog/browser-core" "4.11.1"
+    "@datadog/browser-rum-core" "4.11.1"
+
 "@eslint/eslintrc@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.2.2.tgz#4989b9e8c0216747ee7cca314ae73791bb281aae"

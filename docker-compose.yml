@@ -7,6 +7,12 @@ services:
       - '3000:3000'
     tty: true
     stdin_open: true
+    env_file:
+      - ./.env
+    environment:
+      - REACT_APP_ENV=env
+      - REACT_APP_SERVICE=graphql-react
+      - REACT_APP_VERSION=0.1
     depends_on:
       - db
       - adminer
@@ -21,12 +27,12 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - DD_ENV=dev
-      - DD_VERSION=0.1
       - DD_AGENT_HOST=datadog-agent
-      - DD_TRACE_AGENT_PORT=8126
+      - DD_ENV=dev
       - DD_LOGS_INJECTION=true
       - DD_SERVICE=graphql-server
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_VERSION=0.1
     env_file:
       - ./.env
     depends_on:
