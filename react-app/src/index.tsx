@@ -1,4 +1,10 @@
 import { datadogRum } from '@datadog/browser-rum'
+import {
+    ApolloProvider,
+    ApolloClient,
+    createHttpLink,
+    InMemoryCache
+} from '@apollo/client'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -10,9 +16,10 @@ const {
     REACT_APP_APPLICATION_ID,
     REACT_APP_CLIENT_TOKEN,
     REACT_APP_ENV,
+    REACT_APP_GRAPHQL_SERVER,
     REACT_APP_SERVICE,
     REACT_APP_SITE,
-    REACT_APP_VERSION
+    REACT_APP_VERSION,
 } = process.env
 
 datadogRum.init({
@@ -31,13 +38,24 @@ datadogRum.init({
     
 datadogRum.startSessionReplayRecording()
 
+const httpLink = createHttpLink({
+    uri: REACT_APP_GRAPHQL_SERVER as string
+})
+
+const client = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache()
+})
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <ApolloProvider client={client}>
+            <App />
+        </ApolloProvider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
