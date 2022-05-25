@@ -3,8 +3,14 @@ import {
     nonNull,
     objectType,
     stringArg,
-    intArg
+    intArg,
+    inputObjectType,
+    enumType,
+    arg,
+    list
 } from 'nexus'
+import { Prisma } from '@prisma/client'
+
 import { NexusGenObjects } from '../../nexus-typegen'
 
 const Link = objectType({
@@ -37,13 +43,55 @@ const Link = objectType({
     }
 })
 
+const LinkOrderByInput = inputObjectType({
+    name: 'LinkOrderByInput',
+    definition(t) {
+        t.field('description', { type: Sort })
+        t.field('url', { type: Sort })
+        t.field('createdAt', { type: Sort })
+    }
+})
+
+const Sort = enumType({
+    name: 'Sort',
+    members: ['asc', 'desc']
+})
+
 const LinkQuery = extendType({
     type: 'Query',
     definition(t) {
         t.nonNull.list.nonNull.field('feed', {
             type: 'Link',
+            args: {
+                filter: stringArg(),
+                skip: intArg(),
+                take: intArg(),
+                orderBy: arg({ type: list(nonNull(LinkOrderByInput)) })
+            },
             resolve(parent, args, context) {
-                return context.prisma.link.findMany()
+                const where = args.filter
+                    ? {
+                        OR: [
+                            {
+                                description: {
+                                    contains: args.filter
+                                }
+                            },
+                            {
+                                url: {
+                                    contains: args.filter
+                                }
+                            }
+                        ]
+                    }
+                    : {}
+
+                return context.prisma.link.findMany({
+                    where,
+                    skip: args?.skip as number | undefined,
+                    take: args?.take as number | undefined,
+                    orderBy: args?.orderBy as Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput> | undefined
+                })
             }
         })
     }
@@ -86,7 +134,9 @@ const LinkMutation = extendType({
 
 export {
     Link,
+    LinkMutation,
+    LinkOrderByInput,
     LinkQuery,
-    LinkMutation
+    Sort
 }
 
