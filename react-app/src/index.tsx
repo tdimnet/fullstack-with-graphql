@@ -33,7 +33,8 @@ datadogRum.init({
     sampleRate: 100,
     premiumSampleRate: 100,
     trackInteractions: true,
-    defaultPrivacyLevel:'mask-user-input'
+    defaultPrivacyLevel:'mask-user-input',
+    allowedTracingOrigins: ["http://localhost:3000", "http://localhost:4000"]
 });
     
 datadogRum.startSessionReplayRecording()
