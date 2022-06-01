@@ -5,18 +5,6 @@ import Link, {
     TLink
 } from './Link'
 
-const links: TLink[] = [
-    {
-        id: 'link-id-1',
-        description: 'Prisma gives you a powerful database toolkit',
-        url: 'https://prisma.io'
-    },
-    {
-        id: 'link-id-2',
-        description: 'The best GraphQL client',
-        url: 'https://www.apollographql.com/docs/react'
-    }
-]
 
 const FEED_QUERY = gql`
     {
@@ -32,24 +20,21 @@ const FEED_QUERY = gql`
     }
 `
 
-interface TFeed {
+interface FeedData {
     feed: {
+        id: string
         links: TLink[]
     }
 }
 
 const Component = () => {
-    const { data }: { data: TFeed } = useQuery(FEED_QUERY)
-
-    console.log("====")
-    console.log(data.feed.links)
-    console.log("====")
+    const { data, loading, error } = useQuery<FeedData>(FEED_QUERY)
 
     return (
         <div>
             {data && (
                 <>
-                    {links.map(link => (
+                    {data.feed.links.map(link => (
                         <Link key={link.id} link={link} />
                     ))}
                 </>
