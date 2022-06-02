@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useMutation, gql } from '@apollo/client'
 
 type SignUpInputs = {
     email: string
@@ -13,11 +14,46 @@ type LoginInputs = {
     password: string
 }
 
+const SIGN_UP_MUTATION = gql`
+    mutation SignUpMutation(
+        $email: String!
+        $password: String!
+        $name: String
+    ) {
+        signup(
+            email: $email
+            password: $password
+            name: $name
+        ) {
+            token
+        }
+    }
+`
+
+const LOGIN_MUTATION = gql`
+    mutation LoginMutation(
+        $email: String!
+        $password: String!
+    ) {
+        login(email: $email, password: $password) {
+            token
+        }
+    }
+`
+
 
 const SignUp = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<SignUpInputs>()
+    const [ signup ] = useMutation(SIGN_UP_MUTATION)
 
-    const onSubmit: SubmitHandler<SignUpInputs> = data => console.log(data)
+    const onSubmit: SubmitHandler<SignUpInputs> = data => signup({
+        variables: {
+            email: data.email,
+            password: data.password,
+            name: data.name
+        },
+        onCompleted: ({ signup }) => console.log(signup)
+    })
 
     return (
         <div>
@@ -44,9 +80,20 @@ const SignUp = () => {
 }
 
 const Login = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<LoginInputs>()
+    const [ login ] = useMutation(LOGIN_MUTATION)
 
-    const onSubmit: SubmitHandler<LoginInputs> = data => console.log(data)
+    const onSubmit: SubmitHandler<LoginInputs> = data => login({
+        variables: {
+            email: data.email,
+            password: data.password
+        },
+        onCompleted: ({ login }) => {
+            localStorage.setItem('token', login.token)
+            navigate('/')
+        }
+    })
 
     return (
         <div>
