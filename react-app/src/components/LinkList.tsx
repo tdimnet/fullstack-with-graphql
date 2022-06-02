@@ -1,5 +1,5 @@
-import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import React from 'react'
 
 import Link, {
     TLink
