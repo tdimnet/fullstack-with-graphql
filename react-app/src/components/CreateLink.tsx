@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useMutation, gql } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
 
 type Inputs = {
     description: string
@@ -27,7 +28,7 @@ const Component = () => {
     const onSubmit: SubmitHandler<Inputs> = data => createLink({ variables: {
         description: data.description,
         url: data.url
-    }})
+    }, onCompleted: () => console.log("Done!")})
 
     console.log("========")
     console.log(data)

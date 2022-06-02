@@ -68,6 +68,11 @@ const Sort = enumType({
     members: ['asc', 'desc']
 })
 
+
+function timeout(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const LinkQuery = extendType({
     type: 'Query',
     definition(t) {
