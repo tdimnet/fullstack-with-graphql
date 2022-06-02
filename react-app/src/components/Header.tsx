@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { AUTH_TOKEN } from '../constants'
 
 const Component = () => (
     <div>
@@ -9,9 +10,24 @@ const Component = () => (
             <Link to='/'>
                 New
             </Link>
-            <Link to='/create'>
-                Submit
-            </Link>
+            {
+                AUTH_TOKEN &&
+                <Link to='/create'>
+                    Submit
+                </Link>
+            }
+            {
+                AUTH_TOKEN
+                ? (
+                    <div>
+                        Logout
+                    </div>
+                ) : (
+                    <Link to='/login'>
+                        Login
+                    </Link>
+                )
+            }
         </div>
     </div>
 )

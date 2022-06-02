@@ -43,12 +43,12 @@ const Component = () => {
             <input
                 placeholder='A description for the link'
                 type='text'
-                {...register('description')}
+                {...register('description', { required: true })}
             />
             <input
                 placeholder='The URL for the link'
                 type='text'
-                {...register('url')}
+                {...register('url', { required: true })}
             />
 
             <input type='submit' />
