@@ -1,4 +1,5 @@
 import { datadogRum } from '@datadog/browser-rum'
+import { BrowserRouter } from 'react-router-dom'
 import {
     ApolloProvider,
     ApolloClient,
@@ -53,9 +54,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <ApolloProvider client={client}>
-            <App />
-        </ApolloProvider>
+        <BrowserRouter>
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
+        </BrowserRouter>
     </React.StrictMode>
 );
 
