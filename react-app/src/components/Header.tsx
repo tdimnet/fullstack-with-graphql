@@ -1,36 +1,43 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 import { AUTH_TOKEN } from '../constants'
 
-const Component = () => (
-    <div>
+const Component = () => {
+    const navigate = useNavigate() 
+    return (
         <div>
-            <Link to='/'>
-                Home
-            </Link>
-            <Link to='/'>
-                New
-            </Link>
-            {
-                AUTH_TOKEN &&
-                <Link to='/create'>
-                    Submit
+            <div>
+                <Link to='/'>
+                    Home
                 </Link>
-            }
-            {
-                AUTH_TOKEN
-                ? (
-                    <div>
-                        Logout
-                    </div>
-                ) : (
-                    <Link to='/login'>
-                        Login
+                <Link to='/'>
+                    New
+                </Link>
+                {
+                    AUTH_TOKEN &&
+                    <Link to='/create'>
+                        Submit
                     </Link>
-                )
-            }
+                }
+                {
+                    AUTH_TOKEN
+                    ? (
+                        <div onClick={() => {
+                            localStorage.removeItem('token')
+                            navigate('/')
+                        }}>
+                            Logout
+                        </div>
+                    ) : (
+                        <Link to='/login'>
+                            Login
+                        </Link>
+                    )
+                }
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export default Component
 

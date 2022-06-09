@@ -18,11 +18,11 @@ const SIGN_UP_MUTATION = gql`
     mutation SignUpMutation(
         $email: String!
         $password: String!
-        $name: String
+        $name: String!
     ) {
         signup(
-            email: $email
-            password: $password
+            email: $email,
+            password: $password,
             name: $name
         ) {
             token
@@ -43,6 +43,7 @@ const LOGIN_MUTATION = gql`
 
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<SignUpInputs>()
     const [ signup ] = useMutation(SIGN_UP_MUTATION)
 
@@ -52,7 +53,10 @@ const SignUp = () => {
             password: data.password,
             name: data.name
         },
-        onCompleted: ({ signup }) => console.log(signup)
+        onCompleted: ({ signup }) => {
+            localStorage.setItem('token', signup.token)
+            navigate('/')
+        }
     })
 
     return (
